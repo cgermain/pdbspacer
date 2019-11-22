@@ -3,7 +3,7 @@ import sys
 import argparse
 
 parser = argparse.ArgumentParser(description="")
-parser.add_argument('pdb_dir', action="store", help="Path to the dir that holds PDBQT files")
+parser.add_argument('pdb_dir', action="store", help="Path to the dir that holds pdb files.")
 
 FILE_EXTENSION = ".pdbqt"			# File extension we are looking to modify
 COLUMN_LOCATION = 46				# Column name minus one to account for zero indexing
@@ -20,7 +20,7 @@ def make_output_filename(filename):
 	out_dir = os.path.join(directory, OUT_DIR_NAME)
 	
 	# If this is the first time we are assembling a filename
-	# to write to, create the output dir
+	# create the output dir
 	if not os.path.exists(out_dir):
 		os.makedirs(out_dir)
 
