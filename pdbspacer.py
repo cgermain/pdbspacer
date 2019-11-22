@@ -5,10 +5,10 @@ import argparse
 parser = argparse.ArgumentParser(description="")
 parser.add_argument('pdb_dir', action="store", help="Path to the dir that holds PDBQT files")
 
-file_extension = ".pdbqt"			# File extension we are looking to modify
-column_location = 46				# Column name minus one to account for zero indexing
-output_directory_name = "spaced"	# Output directory will be named this and located inside input dir
-line_prefix = "HETATM"				# Lines that start with this are ones that we would like to modify
+FILE_EXTENSION = ".pdbqt"			# File extension we are looking to modify
+COLUMN_LOCATION = 46				# Column name minus one to account for zero indexing
+OUT_DIR_NAME = "spaced"				# Output directory will be named this and located inside input dir
+LINE_PREFIX = "HETATM"				# Lines that start with this are ones that we would like to modify
 
 def make_output_filename(filename):
 	#Disassemble each piece of the filename
@@ -17,14 +17,14 @@ def make_output_filename(filename):
 	full_filename = os.path.split(path)[1]
 	base = os.path.splitext(full_filename)[0]
 	extension = os.path.splitext(full_filename)[1]
-	out_dir = os.path.join(directory, output_directory_name)
+	out_dir = os.path.join(directory, OUT_DIR_NAME)
 	
 	# If this is the first time we are assembling a filename
 	# to write to, create the output dir
 	if not os.path.exists(out_dir):
 		os.makedirs(out_dir)
 
-	return os.path.join(out_dir, base + file_extension)
+	return os.path.join(out_dir, base + FILE_EXTENSION)
 
 def main():
 	arguments = parser.parse_args()
@@ -38,7 +38,7 @@ def main():
 	# that end with the file extension we are looking to modify
 	pdb_files = [f for f in os.listdir(pdb_dir) \
 				if os.path.isfile(os.path.join(pdb_dir, f)) \
-				and f.endswith(file_extension)]
+				and f.endswith(FILE_EXTENSION)]
 
 	if len(pdb_files) == 0:
 		print("Directory doesn't contain any files that match our criteria.")
@@ -57,8 +57,8 @@ def main():
 			# add a space at the column that is specified
 			# and write the file out
 			for line in current_file:
-				if line.startswith(line_prefix):
-					line = line[:column_location] + " " + line[column_location:]
+				if line.startswith(LINE_PREFIX):
+					line = line[:COLUMN_LOCATION] + " " + line[COLUMN_LOCATION:]
 				out_file.write(line)
 			# Close the file that we have completed writing out the modified lines to
 			out_file.close()
